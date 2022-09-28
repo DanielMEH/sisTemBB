@@ -5,9 +5,7 @@ class ControllerUser {
    
 
 
-    public async sigNUpC( req: Request, res: Response ) {
-
-        
+    public async sigNUpC( req: Request, res: Response ): Promise<any> {
         try {
             const { correo, password } = req.body;
             const connectDb = await conexion.connect();
@@ -16,13 +14,9 @@ class ControllerUser {
             const encriptarPassword = await bcrypt.genSalt( roundNumber )
             const hasPassword = await bcrypt.hash(password, encriptarPassword )
             if ( correo !== null && password !== null ) {
-                
-             connectDb.query("INSERT INTO admin(correo, password) VALUES (?, ?)", [
-                    correo, hasPassword 
-             ], (rows, error) => {
+             connectDb.query("INSERT INTO admin(correo, password) VALUES (?, ?)", [correo, hasPassword],(rows, error) => {
                  console.log(rows);
                  console.log(error);
-                 
                     if (rows) {
                         console.log("insertado datos");
                         return res.json({message:rows})
@@ -48,6 +42,28 @@ class ControllerUser {
         
         
         
+
+    }
+
+    public async loginUser(req:Request, res:Response){
+
+        const { correo, password } = req.body;
+        const connectDb = await conexion.connect();
+        connectDb.query("SELECT idAdmin, password FROM admin WHERE correo = ?",[correo],async(error,rows)=>{
+
+            if(rows.length >0){
+               const passwordAuth = rows[0].password;
+               const passVerify = await bcrypt.compare(password,passwordAuth)
+            }
+            
+            if(error){
+                
+                console.log("no loguead0");
+               return res.json({message:error})
+            }
+
+        })
+
 
     }
 }

@@ -1,9 +1,11 @@
 import express,{json, Request, Response, }  from "express"
-import morgan from "morgan"
+import morgan from "morgan";
 import cors from "cors"
 import { PORT } from "../config/Config"
 import  routerLogin from "../router/UserAuthenticationData"
 import path from "path"
+import sessions from "express-session"
+import cookieParse from "cookie-parser"
 
 async function Server() {
     
@@ -12,6 +14,16 @@ async function Server() {
     appServer?.use( cors( {
         
     }))
+    const timeEXp = 1000 * 60 * 60 * 24;
+appServer.use(
+  sessions({
+    secret: "rfghf66a76ythggi87au7td",
+    saveUninitialized: true,
+    cookie: { maxAge: timeEXp },
+    resave: false,
+  })
+);
+
     appServer?.set( "views", path.join( __dirname, "views" ))
     appServer?.use(express.json() )
     appServer?.use(express.urlencoded({ extended: true }))
