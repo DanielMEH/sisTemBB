@@ -1,6 +1,7 @@
 import {Request ,Response} from "express"
 import  bcrypt from "bcrypt"
 import {conexion} from "../class/ConexionDb"
+import session, { Session } from "express-session";
 class ControllerUser {
    
 
@@ -13,10 +14,8 @@ class ControllerUser {
             const roundNumber = 10;
             const encriptarPassword = await bcrypt.genSalt( roundNumber )
             const hasPassword = await bcrypt.hash(password, encriptarPassword )
-            if ( correo !== null && password !== null ) {
-             connectDb.query("INSERT INTO admin(correo, password) VALUES (?, ?)", [correo, hasPassword],(rows, error) => {
-                 console.log(rows);
-                 console.log(error);
+            
+             connectDb.query("INSERT INTO admin(correo, password) VALUES (?, ?)", [correo, hasPassword],(error, rows) => {
                     if (rows) {
                         console.log("insertado datos");
                         return res.json({message:rows})
@@ -29,42 +28,51 @@ class ControllerUser {
 
                     
                 })
-                
-            } else {
-                
-                res.json({message:"DataInvalid"})
-            }
-
+          
             
         } catch (error) {
             
         }
-        
-        
-        
 
     }
 
-    public async loginUser(req:Request, res:Response){
+    public async loginUser(req:Request, res:Response): Promise<any>{
 
         const { correo, password } = req.body;
         const connectDb = await conexion.connect();
         connectDb.query("SELECT idAdmin, password FROM admin WHERE correo = ?",[correo],async(error,rows)=>{
 
-            if(rows.length >0){
+            if(rows.length > 0){
                const passwordAuth = rows[0].password;
-               const passVerify = await bcrypt.compare(password,passwordAuth)
+                const passVerify = await bcrypt.compare( password, passwordAuth )
+                if ( passVerify ) {
+
+                    let sessions: any;
+                     sessions = req.session;
+                    sessions.iUser = rows[0].idAdmin;
+                    console.log(sessions.iUser);
+                    
+                   return  res.json({message:rows, messg:"SUCESSFULL"})
+                    
+                } else {
+                    return res.json( { message: "ErrorUser" } )
+                    
+                }
             }
             
             if(error){
                 
-                console.log("no loguead0");
+                console.log("no logueado");
                return res.json({message:error})
             }
 
         })
 
 
+    }
+
+    public async loginUpdate() {
+        
     }
 }
 

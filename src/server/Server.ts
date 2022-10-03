@@ -24,6 +24,7 @@ appServer.use(
   })
 );
 
+    appServer?.use(cookieParse())
     appServer?.set( "views", path.join( __dirname, "views" ))
     appServer?.use(express.json() )
     appServer?.use(express.urlencoded({ extended: true }))

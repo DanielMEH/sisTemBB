@@ -25,6 +25,7 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
     "fs-extra": "^10.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
@@ -37,7 +38,6 @@
     "uuid": "^9.0.0"
   },
   "dependencies": {
-    "express-session": "^1.17.3",
     "mysql2": "^2.3.3"
   }
 }
