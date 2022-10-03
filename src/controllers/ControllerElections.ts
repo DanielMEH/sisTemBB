@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { conexion } from "../class/ConexionDb";
 
 class controlElections {
+  
   public async readElections(req: Request, res: Response): Promise<any> {
     try {
       const connectDb = await conexion.connect();
