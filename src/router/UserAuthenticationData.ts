@@ -8,10 +8,4 @@ routerLogin?.post( "/signup", constrollersUser.sigNUpC)!
 routerLogin?.delete( "/login", constrollersUser.sigNUpC)!
 routerLogin?.put( "/login", constrollersUser.sigNUpC)!
     
-    
-
-         
-      
-        
-
 export  default routerLogin
