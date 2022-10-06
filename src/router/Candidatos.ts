@@ -1,10 +1,16 @@
 import { Router, Request, Response } from "express";
+import fileUpload from "express-fileupload"
 const routerCandidato: Router = Router();
 import {controllerCandidato } from "../controllers/ContollersCandidato";
-
 routerCandidato?.get("/candidatosViws/:id", controllerCandidato?.candidatosViws)!;
-routerCandidato?.post("/postCandidato", controllerCandidato?.postCandidato)!;
-routerCandidato?.put("/updateCandidato/:id", controllerCandidato?.updateCandidato)!;
+routerCandidato?.post("/postCandidato",fileUpload({
+  useTempFiles:true,
+  tempFileDir : "./uploads"
+}), controllerCandidato?.postCandidato)!;
+routerCandidato?.put("/updateCandidato/:id",fileUpload({
+  useTempFiles:true,
+  tempFileDir : "./uploads"
+}), controllerCandidato?.updateCandidato)!;
 routerCandidato?.delete("/deleteCandidato/:id",controllerCandidato?.deleteCandidato)!;
 
 export default routerCandidato;

@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { conexion } from "../class/ConexionDb";
+import {uploadImage, deleteImage} from "../utils/cloudinary"
+import fs from "fs-extra"
+
 class ControllerCandidato {
 
     public async candidatosViws( req: Request, res: Response ): Promise<any>{
@@ -13,34 +16,43 @@ class ControllerCandidato {
 
                 return res.json( { data: rows } )
                 
-            } else {
+            } else if(error){
                return  res.json({data:"ERRUPLOAD_CAND"})
                 
             }
-            if ( error ) {
-                
-                return res.json( { data: "ERRDATA" } )
-            }
+           
         }) 
        } catch ( error ) {
            res.json({data:"ERRUPLOAD"})
            
         }      
     }
-    public async postCandidato( req: Request, res: Response ): Promise<any>{
+    public async postCandidato( req: any, res: Response ){
         
         try {
-             const { id } = req.params
-        const { documento, imgUrl, imgId, nombreCandidato, programaFormacion,
-            fichaPrograma, estado, totalVotos } = req.body
+            
+            let url_imagen = null;
+            let id_img = null;
+  
+            if(req.files?.imagen){
+                const result = await  uploadImage( req.files?.imagen.tempFilePath! )
+                url_imagen = result.secure_url;
+                id_img = result.public_id;
+                
+                await fs.remove(req.files?.imagen.tempFilePath)
+            }
+            
+        const { documento,  nombreCandidato, programaFormacion,
+            fichaPrograma, estado, totalVotos, id} = req.body
 
         const connection = await conexion.connect();
         connection.query("INSERT INTO candidato (documento, imgUrl, imgId, nombreCandidato, programaFormacion,fichaPrograma, estado, totalVotos,idEleccion1) VALUES(?,?,?,?,?,?,?,?,?)",
-        [documento, imgUrl, imgId, nombreCandidato, programaFormacion,
+        [documento, url_imagen, id_img, nombreCandidato, programaFormacion,
                 fichaPrograma, estado, totalVotos, id], ( error:any, rows:any ) => {
             
             if (rows) {
-
+               
+               
                 return res.json({message:"POSTCANDIDATO"})
                 
             } else if ( error ) {
@@ -61,15 +73,35 @@ class ControllerCandidato {
         }
         
     }
-    public async updateCandidato( req: Request, res: Response ): Promise<void>{
+    public async updateCandidato( req: any, res: Response ): Promise<any>{
         try {
-        const { documento, imgUrl, imgId, nombreCandidato, programaFormacion,
-            fichaPrograma, estado, totalVotos } = req.body
 
             const connection = await conexion.connect();
+
+            connection.query( "SELECT * FROM candidato WHERE documento = ?", [req.params.id],
+               async ( error, rows ) => {
+                if(rows) {
+
+                   await deleteImage(rows[0].imgId)
+                }
+            })
+            let url_imagen = null;
+            let id_img = null;
+  
+            if(req.files?.imagen){
+                const result = await  uploadImage( req.files?.imagen.tempFilePath! )
+                url_imagen = result.secure_url;
+                id_img = result.public_id;
+                
+            }
+
+            await fs.remove(req.files?.imagen.tempFilePath)
+        const { documento,  nombreCandidato, programaFormacion,
+            fichaPrograma, estado, totalVotos } = req.body
+
             
             connection.query("UPDATE candidato SET documento =?, imgUrl=?, imgId=?, nombreCandidato=?, programaFormacion=?,fichaPrograma=?, estado=?, totalVotos=? WHERE documento = ?",
-            [documento, imgUrl, imgId, nombreCandidato, programaFormacion,
+            [documento, url_imagen, id_img, nombreCandidato, programaFormacion,
                     fichaPrograma, estado, totalVotos,req.params.id], ( error, rows ) => {
                 if ( rows ) {
                    return  res.json({message:"UploadData"})
@@ -80,7 +112,7 @@ class ControllerCandidato {
                     
                     return res.json({message:"ErrorUploadData"})
                 }
-                
+            
             })
         } catch (error) {
             
@@ -95,9 +127,17 @@ class ControllerCandidato {
             const { id } = req.params;
             
             const connection = await conexion.connect();
+            
+            connection.query( "SELECT * FROM candidato WHERE documento = ?", [req.params.id],
+               async ( error, rows ) => {
+                if(rows) {
+
+                   await deleteImage(rows[0].imgId)
+                }
+            })
             connection.query( "DELETE FROM candidato WHERE documento = ?", [id], async ( error, rows ) => {
                 if (rows) {
-                    
+                   await  deleteImage(rows[0].imgId)
                     return await res.json({message:"deleteexit"})
                 }
                 
@@ -110,9 +150,6 @@ class ControllerCandidato {
             
             res.json({data:"ERRUPLOAD"})
       }
-
-
-
         
     }
 

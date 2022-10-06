@@ -34,13 +34,12 @@ class Votantes{
               [documento, nombresApellidos, programaFormacion, fichaPrograma, idEleccion2], ( error, rows ) => {
               
                   if (rows) {
-                    res.json({message:"INSERT_VOTANTES"})
+                   return res.json({message:"INSERT_VOTANTES"})
                     
                 }
                   if ( error ) {
-                    console.log("error", error);
                     
-                      res.json({message:"ERROR_INSERT_VOTANTES"})
+                    return  res.json({message:"ERROR_INSERT_VOTANTES"})
                     
                   }
           })
@@ -86,7 +85,7 @@ class Votantes{
                 
                 if (rows) {
                     
-                    return await res.json({message:"deleteexit"})
+                    return await res.json({message:"exito"})
                 }else if (error) {
                     
                     return await res.json({message:"deleteexit"})
@@ -105,17 +104,17 @@ class Votantes{
         try {
             const { id } = req.params;
             const connection = await conexion.connect()
-            connection.query( "SELECT * FROM votantes WHERE idEleccion2 = ? ",[id], ( error, rows ) => {
+            connection.query( "SELECT * FROM votantes WHERE documento= ? ",[id], ( error, rows ) => {
                 
-                
-                  if (rows) {
-                    res.json({message: rows})
+                  if (rows.length > 0) {
+                   return  res.json({message: rows})
                     
+                }else if(rows.length < 0){
+                    
+                   return  res.json({message:"ERROR_VIEW_VOTANTES"})
                 }
                   if ( error ) {
-                    console.log("error", error);
-                    
-                      res.json({message:"ERROR_VIEW_VOTANTES"})
+                    return   res.json({message:"ERROR_VIEW_VOTANTES"})
                     
                   }
             })
@@ -150,7 +149,7 @@ class Votantes{
                                      [ documento1], ( error, rows ) => {
                                          if ( rows ) {
                                          
-                                            return res.json({message:"Tu voto fue registrado exitosamentegracias por participar"})
+                                            return res.json({message:"GOOD_GOOD"})
                                              
                                             } else if ( error ) {
                                             return res.json({message:"El voto no fue registrado"})
@@ -165,7 +164,7 @@ class Votantes{
              })
                                
                         } else if(rows[i].estado == "Inactivo") {
-                            return res.json({message:"Ya votaste o estas inactivo"})
+                            return res.json({message:"REPIT_BOTO"})
                             
                         }
                         

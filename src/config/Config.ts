@@ -9,4 +9,7 @@ export const PASSWORD: any  = process.env["PASSWORD"];
 export const DATABASE: any = process.env["DATABASE"];
 export const PORTDB: any = process.env["PORT"];
 export const CHARSET: any = process.env["CHARSET"];
+export const cludinaryKey = process.env['cloudinaryKey']
+export const claudinarySecret = process.env['cloudinarySecret']
+export const claudinar_Name = process.env['claudinar_Name']
 
