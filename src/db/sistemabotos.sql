@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2022 a las 04:16:26
+-- Tiempo de generación: 07-10-2022 a las 05:14:43
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -40,12 +40,9 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`idAdmin`, `correo`, `password`, `nombre`, `codeAuth`) VALUES
-(5, 'ospina@gmail.com', '$2b$10$cvvlsY8vjwom/eOPDL3VDuHC26akEnIct.Z4AYjBp8xIhGPiqM5Z2', NULL, NULL),
-(6, 'ospina@gmail.com', '$2b$10$7CF66ksMs6ScRCOjo4C4Buhb1P9imVxOP6Gjzyuk72144gfuzomNu', NULL, NULL),
-(7, '', '$2b$10$H6EzkxBLE3pPPm.LF7duguRwq5phdwawIycFGEnuf71S1J5Bv9DWS', NULL, NULL),
-(8, 'ospina@gmail.com', '$2b$10$8JsA1vVgqvKP5YJLZFn7t..1mGH878o/D2j1pd/qJBWNckczFjuju', NULL, NULL),
-(9, 'ospina@gmail.com', '$2b$10$T5pYvtxHrKSJP1xNR2QMxOs8hPABm43ku1h9Ec/ngiMCfs94zw.2W', NULL, NULL),
-(10, 'ospina@gmail.com', '$2b$10$FJ3MATE/j0x1Yrzq4YOKSO5xwBS4zmzDKprjoN4K98MpnG9/Gt1TW', NULL, NULL);
+(12, 'ospina@gmail.com', '$2b$10$tEuz7alflK2WQpSE7x0jguAcclToU3NAHxsKcm.epTAStCqm1Lvt.', NULL, NULL),
+(24, 'siceColinas@gmail.com', '$2b$10$/FWPDDw2a/oTP8kvIrGRMOat8uQKQeB18nW/H6MxbHzS1Wj3H8.V6', NULL, NULL),
+(25, 'siceColinas1@gmail.com', '$2b$10$MHW.LRCDnehEyPWgBGR/6uMdACJQ3CWW5mdTZRfQ1J4G2drtWa722', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,6 +62,26 @@ CREATE TABLE `candidato` (
   `idEleccion1` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `candidato`
+--
+
+INSERT INTO `candidato` (`documento`, `imgUrl`, `imgId`, `nombreCandidato`, `programaFormacion`, `fichaPrograma`, `estado`, `totalVotos`, `idEleccion1`) VALUES
+(22222, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665015529/votos/ijeylbp3rfpkpon001hr.png', 'votos/ijeylbp3rfpkpon001hr', 'German', 'Adsi', '7777777', 'Activo', 0, 4),
+(123456, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665063688/votos/s8xqmsk8ts3o2ywxizo4.png', 'votos/s8xqmsk8ts3o2ywxizo4', 'cratus', 'Adsi', '111111', 'Activo', 0, 4),
+(888888, NULL, NULL, 'German', 'Adsi', '7777777', 'Activo', 0, 4),
+(999999, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665016218/votos/xzg3scbhlmtyyjgt0qri.gif', 'votos/xzg3scbhlmtyyjgt0qri', 'German', 'Adsi', '7777777', 'Activo', 0, 4),
+(1234564, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665063779/votos/xl5gwwfkddreiqs1bnsd.png', 'votos/xl5gwwfkddreiqs1bnsd', 'cratus', 'Adsi', '111111', 'Activo', 0, 4),
+(2334243, 'wwwwwwwww', 'wwwwwwww', 'newwwww', 'ooooooo', '334', 'Activo', 0, 5),
+(2345677, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665064027/votos/zfqjzyyqksa257dhe85a.png', 'votos/zfqjzyyqksa257dhe85a', 'cratus', 'Adsi', '111111', 'Activo', 0, 4),
+(2469181, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665057904/votos/xrt2evupxyf52xz5sr21.jpg', 'votos/xrt2evupxyf52xz5sr21', 'German', 'Adsi', '7777777', 'Activo', 0, 4),
+(22222228, '', '', 'German', 'Adsi', '7777777', 'Activo', 0, 4),
+(23456776, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665064076/votos/v7bxzwsonkxaxk6dz0nz.png', 'votos/v7bxzwsonkxaxk6dz0nz', 'cratus', 'Adsi', '111111', 'Activo', 0, 4),
+(246918119, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665059937/votos/j3ola9sgklyn5tjbpcvq.png', 'votos/j3ola9sgklyn5tjbpcvq', 'cratus', 'Adsi', '111111', 'Activo', 0, 4),
+(1005090348, 'url_imagen', 'id_imagen', 'Estevan jajja', 'adsi', '2469281', 'Activo', 3, 4),
+(2222334243, 'wwwwwwwww', 'wwwwwwww', 'newwwww', 'ooooooo', '334', 'Activo', 0, 5),
+(2345677655, 'https://res.cloudinary.com/dkqp3wkbi/image/upload/v1665099772/votos/cvsqqmexirijql6i38fj.png', 'votos/cvsqqmexirijql6i38fj', 'cratus', 'Adsi', '111111', 'Activo', 0, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -75,10 +92,19 @@ CREATE TABLE `elecciones` (
   `idEleccion` bigint(20) NOT NULL,
   `descripcion` text NOT NULL,
   `cargo` varchar(70) NOT NULL,
-  `fechaRegistro` date DEFAULT NULL,
   `estado` set('Activo','Inactivo') DEFAULT NULL,
-  `idAdmin1` bigint(20) DEFAULT NULL
+  `idAdmin1` bigint(20) DEFAULT NULL,
+  `fecha` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `elecciones`
+--
+
+INSERT INTO `elecciones` (`idEleccion`, `descripcion`, `cargo`, `estado`, `idAdmin1`, `fecha`) VALUES
+(4, 'primera convocatoria', 'new post Eleccion', 'Activo', 24, '2022-10-06'),
+(5, 'segunda convocatoria', 'new post Eleccion', 'Activo', 24, '2022-01-01'),
+(6, 'tttttt', 'guyi', 'Activo', 24, '2022-10-06');
 
 -- --------------------------------------------------------
 
@@ -107,16 +133,31 @@ CREATE TABLE `reportes` (
 --
 
 CREATE TABLE `votantes` (
-  `documento` bigint(20) NOT NULL,
-  `nombres` varchar(30) NOT NULL,
-  `apellidos` varchar(30) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `documento` int(11) NOT NULL,
+  `nombresApellidos` varchar(150) NOT NULL,
   `programaFormacion` varchar(30) NOT NULL,
   `fichaPrograma` varchar(20) NOT NULL,
-  `fechaRegistro` date NOT NULL DEFAULT current_timestamp(),
-  `emitioVoto` set('Si','No') DEFAULT NULL,
+  `emitioVoto` set('Si','No') DEFAULT 'No',
+  `estado` text NOT NULL DEFAULT 'Activo',
   `documento1` bigint(20) DEFAULT NULL,
   `idEleccion2` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `votantes`
+--
+
+INSERT INTO `votantes` (`id`, `documento`, `nombresApellidos`, `programaFormacion`, `fichaPrograma`, `emitioVoto`, `estado`, `documento1`, `idEleccion2`) VALUES
+(1, 1005090349, 'ana maria', 'Enfermeria', '2455488', 'Si', 'Inactivo', 1005090348, 4),
+(2, 556565, 'jose', 'Enfermeria', '2455488', 'Si', 'Inactivo', 1005090348, 5),
+(3, 67676, 'jose', 'Enfermeria', '2455488', 'Si', 'Inactivo', 1005090348, 5),
+(4, 45456, 'ana maria', 'Enfermeria', '2455488', 'No', 'Activo', NULL, 4),
+(5, 756767, 'jose', 'Enfermeria', '2455488', 'No', 'Activo', NULL, 5),
+(6, 5765675, 'ana maria', 'Enfermeria', '2455488', 'No', 'Activo', NULL, 4),
+(7, 87878, 'ana maria', 'Enfermeria', '2455488', 'No', 'Activo', NULL, 4),
+(8, 7676, 'Esteban gonzales', 'Talento humano', '2455488', 'No', 'Activo', NULL, 5),
+(9, 76767, 'ana maria', 'Enfermeria', '2455488', 'No', 'Activo', NULL, 4);
 
 --
 -- Índices para tablas volcadas
@@ -154,7 +195,7 @@ ALTER TABLE `reportes`
 -- Indices de la tabla `votantes`
 --
 ALTER TABLE `votantes`
-  ADD PRIMARY KEY (`documento`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_votoCandi` (`documento1`),
   ADD KEY `fk_votoEle` (`idEleccion2`);
 
@@ -166,7 +207,13 @@ ALTER TABLE `votantes`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `idAdmin` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idAdmin` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT de la tabla `votantes`
+--
+ALTER TABLE `votantes`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas

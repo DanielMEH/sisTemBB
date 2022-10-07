@@ -102,28 +102,66 @@ class Votantes{
     }
     public async viewsVotantes(req:Request, res:Response) {
         try {
-            const { id } = req.params;
+            const { documento } = req.body;
+            const documentInt = parseInt(documento)
+            console.log("sssssss",documento);
+            
             const connection = await conexion.connect()
-            connection.query( "SELECT * FROM votantes WHERE documento= ? ",[id], ( error, rows ) => {
-                
-                  if (rows.length > 0) {
-                   return  res.json({message: rows})
-                    
-                }else if(rows.length < 0){
-                    
-                   return  res.json({message:"ERROR_VIEW_VOTANTES"})
+            connection.query( "SELECT * FROM votantes WHERE documento= ? ",[documentInt], ( error, rows ) => {
+                 
+                if ( error ) {
+                  return   res.json({message:"ERROR_VIEW_VOTANTES"})
+                  
                 }
-                  if ( error ) {
-                    return   res.json({message:"ERROR_VIEW_VOTANTES"})
+                  if (rows.length > 0) {
+                      console.log("esta basio");
+                   return  res.json({message: "SUCCESFULL_VIEW"})
                     
-                  }
+                }else {
+                    
+                   return  res.json({message:"ERROR_NOT_EXIXT"})
+                }
             })
             
         } catch (error) {
-            
+            return res.json({ message: error });
         }
     }
 
+    public async electVotante( req: Request, res: Response ) {
+          const { documento } = req.params;
+        const connection = await conexion.connect();
+        
+        connection.query( "SELECT * FROM votantes WHERE documento = ?", [documento], ( error, rows ) => {
+           
+            if (error) {
+                
+                return res.json({message:"ERROR_DB"})
+            }
+            if ( rows.length > 0 ) {
+                
+                connection.query( "SELECT * FROM  elecciones WHERE idEleccion = ?", [rows[0].idEleccion2],
+                    ( error, rows ) => {
+                    
+                        if (error) {
+                           return res.json({message:"ERROR_DB"})
+                        }
+                        if ( rows.length > 0 ) {
+                            
+                            return res.json({message:rows})
+                            
+                        } else {
+                              return  res.json({message:"ERROR_NOT_EXIXT"})
+                        }
+                })
+               
+            } else {
+                return  res.json({message:"ERROR_NOT_EXIXT"})
+            }
+        })
+
+
+    }
     public async updatvotantesfine( req: Request, res: Response ) {
        
         try {
@@ -185,7 +223,7 @@ class Votantes{
             // })
 
         } catch (error) {
-            
+            return res.json({ message: error });
         }
         
         
