@@ -3,6 +3,7 @@ import fileUpload from "express-fileupload"
 const routerCandidato: Router = Router();
 import {controllerCandidato } from "../controllers/ContollersCandidato";
 routerCandidato?.get("/candidatosViws/:id", controllerCandidato?.candidatosViws)!;
+routerCandidato?.get("/candidatosvista/:id", controllerCandidato?.candidatosvista)!;
 routerCandidato?.post("/postCandidato",fileUpload({
   useTempFiles:true,
   tempFileDir : "./uploads"

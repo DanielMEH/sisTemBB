@@ -12,25 +12,36 @@ class ControllerUser {
             const encriptarPassword = await bcrypt.genSalt(roundNumber);
             const hasPassword = await bcrypt.hash(password, encriptarPassword);
             if (correo !== null && password !== null) {
-                connectDb.query(
-                    "INSERT INTO admin(correo, password) VALUES (?, ?)",
-                    [correo, hasPassword],
-                    (error, rows) => {
-                      
-                        if (rows) {
-                           
-                            return res.json({ message: "insetUser"});
+                connectDb.query("SELECT * FROM admin",(error,rows)=>{
+                        for (let i = 0; i < rows.length; i++) {
+                            if (rows[i].correo == correo) {
+                                return res.json({ message: "EMAIL_EXIST"});      
+                            }
+                            
                         }
-
-                        if (error) {
-                            return res.json({ mesage: error, err: "Error" });
-                        }
-                    }
-                );
-            } else {
-                res.json({ message: "DataInvalid" });
-            }
-        } catch (error) { }
+                        connectDb.query(
+                            "INSERT INTO admin(correo, password) VALUES (?, ?)",
+                            [correo, hasPassword],
+                            (error, rows) => {
+                                if (rows) {
+                                   
+                                return res.json({ message: "insetUser"});
+                                      
+                                }
+        
+                                if (error) {
+                                    return res.json({ mesage: error, err: "Error" });
+                                }
+                            }
+                        );
+                    
+                })
+               
+               
+            } 
+        } catch (error) { 
+            res.json({ message: "Error 404" });
+        }
     }
 
     public async loginUser(req: Request, res: Response) {
@@ -50,7 +61,7 @@ class ControllerUser {
                         sessions = req.session;
                         sessions.idUser = rows[0].idAdmin
                         
-                        res.json({mesage:"SUCCESFULUSER"})
+                        res.json({message:"SUCCESFULUSER"})
                         
                     } else {
                         

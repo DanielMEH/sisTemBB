@@ -8,7 +8,7 @@ routerVotante?.post("/creatvotantes", votantes .creatVotantes)!;
 routerVotante?.put("/updatvotantes/:id", votantes .updateVotantes)!;
 routerVotante?.delete("/deletvotantes/:id",votantes .deletVotantes)!;
 routerVotante?.post( "/votantesView", votantes.viewsVotantes )!;
-routerVotante?.put( "/updatvotantesfine/:id", votantes.updatvotantesfine)!;
+routerVotante?.put( "/updatvotantesfine/:idk/:documento1", votantes.updatvotantesfine)!;
 
 
 export default routerVotante;

@@ -4,22 +4,57 @@ import {uploadImage, deleteImage} from "../utils/cloudinary"
 import fs from "fs-extra"
 
 class ControllerCandidato {
-
+    public async candidatosvista( req: Request, res: Response ): Promise<any>{
+        try {
+          const connection = await conexion.connect();
+          const id = req.params.id;
+          let idConvert = parseInt(id)
+          console.log(idConvert);
+          
+         connection.query( "SELECT * FROM candidato WHERE documento = ? ",[idConvert], (error, rows) => {
+             console.log(rows);
+             
+             if(error){
+                return  res.json({data:"ERRUPLOAD_CAND"})
+             }
+             if ( rows.length > 0 ) {
+ 
+                 return res.json( { data: rows } )
+                 
+             } else{
+                 return  res.json({data:"NOT_FOUND_RESULT"})
+ 
+             }
+             
+            
+         }) 
+        } catch ( error ) {
+            res.json({data:"ERRUPLOAD"})
+            
+         }      
+     }
     public async candidatosViws( req: Request, res: Response ): Promise<any>{
        try {
          const connection = await conexion.connect();
-
-        connection.query( "SELECT * FROM candidato WHERE idEleccion1 = ? ",[req.params.id], (error, rows) => {
+         const id = req.params.id;
+         let idConvert = parseInt(id)
+         console.log(idConvert);
+         
+        connection.query( "SELECT * FROM candidato WHERE idEleccion1 = ? ",[idConvert], (error, rows) => {
             console.log(rows);
             
+            if(error){
+               return  res.json({data:"ERRUPLOAD_CAND"})
+            }
             if ( rows.length > 0 ) {
 
                 return res.json( { data: rows } )
                 
-            } else if(error){
-               return  res.json({data:"ERRUPLOAD_CAND"})
-                
+            } else{
+                return  res.json({data:"NOT_FOUND_RESULT"})
+
             }
+            
            
         }) 
        } catch ( error ) {

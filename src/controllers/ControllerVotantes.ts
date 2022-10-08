@@ -9,16 +9,19 @@ class Votantes{
             connection.query( "SELECT * FROM votantes ", ( error, rows ) => {
                 
                 
-                  if (rows) {
+                if ( error ) {
+                  
+                    res.json({message:"ERROR_VIEW_VOTANTES"})
+                  
+                }
+                  if (rows.leng > 0) {
                     res.json({message: rows})
                     
+                }else {
+                    res.json({message:"ERROR_VIEW_VOTANTES"})
+
                 }
-                  if ( error ) {
-                    console.log("error", error);
-                    
-                      res.json({message:"ERROR_VIEW_VOTANTES"})
-                    
-                  }
+                  
             })
             
         } catch (error) {
@@ -104,7 +107,7 @@ class Votantes{
         try {
             const { documento } = req.body;
             const documentInt = parseInt(documento)
-            console.log("sssssss",documento);
+            
             
             const connection = await conexion.connect()
             connection.query( "SELECT * FROM votantes WHERE documento= ? ",[documentInt], ( error, rows ) => {
@@ -114,9 +117,16 @@ class Votantes{
                   
                 }
                   if (rows.length > 0) {
-                      console.log("esta basio");
-                   return  res.json({message: "SUCCESFULL_VIEW"})
-                    
+                         
+                    for (let i = 0; i < rows.length; i++) {
+                        if ( rows[i].estado == "Activo" ) {
+
+                            console.log("esta basio");
+                         return  res.json({message: "SUCCESFULL_VIEW"})
+                        }else{
+                            return  res.json({message: "USER_IS_INACTIVE"})
+                        }
+                    }
                 }else {
                     
                    return  res.json({message:"ERROR_NOT_EXIXT"})
@@ -167,21 +177,23 @@ class Votantes{
         try {
            let  emitioVoto = "Si"
            let  estado = "Inactivo"
-            const { id } = req.params
-            const { documento1 } = req.body
-            console.log(documento1);
+            const { idk, documento1 } = req.params
+           
+    console.log(idk, documento1);
+    
             
             const connection = await conexion.connect();
 
-            connection.query( "SELECT * FROM votantes WHERE documento = ?", [id], ( error, rows ) => {
+            connection.query( "SELECT * FROM votantes WHERE documento = ?", [idk], ( error, rows ) => {
+                console.log(rows);
                 
-                if ( rows ) {
+                if ( rows.length > 0) {
                     
                     for (let i = 0; i < rows.length; i++) {
                         if ( rows[i].estado == "Activo" ) {
                             
                      connection.query( "UPDATE votantes SET emitioVoto = ?, estado=?, documento1=? WHERE documento = ?",
-                         [emitioVoto, estado, documento1, id], ( error, rows ) => {
+                         [emitioVoto, estado, documento1, idk], ( error, rows ) => {
                              if ( rows ) {
                                  connection.query( `UPDATE candidato SET totalVotos = totalVotos + ${1} WHERE documento = ?`,
                                      [ documento1], ( error, rows ) => {
@@ -202,12 +214,14 @@ class Votantes{
              })
                                
                         } else if(rows[i].estado == "Inactivo") {
-                            return res.json({message:"REPIT_BOTO"})
                             
                         }
                         
                     }
                     
+                }else{
+                    
+                    return res.json({message:"ERR_NOT_USER"})
                 }
                 if (error) {
                     res.json({message:error})
