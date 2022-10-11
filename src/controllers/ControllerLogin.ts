@@ -57,14 +57,14 @@ class ControllerUser {
                     console.log(req.session);
                     
                     if ( passVerify ) {
-                           let sessions;
-                  
+                      
+                     let sessions;
                     sessions = req?.session!
                     sessions.idUser = rows[0].idAdmin;
                         
                         console.log( sessions.idUser);
                         
-                        res.json({message:"SUCCESFULUSER"})
+                        res.json({message: sessions})
                         
                     } else {
                         
@@ -86,13 +86,7 @@ class ControllerUser {
     }
       public async createElection(req:any, res: Response): Promise<any> {
     try {
-      
-
-    let sessions;
-  sessions = req?.session!;
-        console.log(req.body);
-            
-      if (sessions.idUser) {
+ 
  const {
         descripcion,
         cargo,
@@ -103,17 +97,13 @@ class ControllerUser {
       const connectDb = await conexion.connect();
         connectDb.query(
           "INSERT INTO elecciones ( descripcion, cargo, estado, idAdmin1) VALUES (?, ?, ?, ?)",
-          [ descripcion, cargo, estado,sessions.idUser ],
+          [ descripcion, cargo, estado,req?.sessions?.idUser! ],
           ( error, rows ) => {
             
             if (rows) {
-              console.log(rows);
-              
               return res.json({ data:"INSERTELLECCION" });
               
             } else {
-              
-              console.log("sss",error);
               
               return res.json({ data: "ERRDATA" });
             }
@@ -122,10 +112,7 @@ class ControllerUser {
           }
         );
      
-      } else {
-          res.json({data:"INICIESESSION"})
-        
-      }
+      
      
     } catch (error) {
       res.json({ data: "Error 404" });

@@ -15,6 +15,7 @@ import cookieParser from "cookie-parser";
     const timeEXp = 1000 * 60 * 60 * 24;
    appServer.use(
   sessions({
+    name: 'session',
     secret: "rfghf66a76ythggi87au7td",
     saveUninitialized: true,
     cookie: { maxAge: timeEXp },
