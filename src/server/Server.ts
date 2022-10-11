@@ -8,22 +8,22 @@ import routerCandidato from "../router/Candidatos";
 import  routerVotante from "../router/Votantes";
 import path from "path";
 import sessions from "express-session";
-import cookieParse from "cookie-parser";
-async function Server() {
-  try {
+import cookieParser from "cookie-parser";
+
     const appServer: express.Application = express();
     appServer?.use(cors());
     const timeEXp = 1000 * 60 * 60 * 24;
-    appServer.use(
-      sessions({
-        secret: "rfghf66a76ythggi87au7td",
-        saveUninitialized: true,
-        cookie: { maxAge: timeEXp },
-        resave: false,
-      })
-    );
+   appServer.use(
+  sessions({
+    secret: "rfghf66a76ythggi87au7td",
+    saveUninitialized: true,
+    cookie: { maxAge: timeEXp },
+    resave: false,
+  })
+);
 
-    appServer?.use(cookieParse())
+appServer?.use(cors());
+appServer?.use(cookieParser());
     appServer?.set( "views", path.join( __dirname, "views" ))
     appServer?.use(express.json() )
     appServer?.use(express.urlencoded({ extended: true }))
@@ -41,13 +41,4 @@ async function Server() {
         
     } )
        
-       
-    } catch (error: any) {
-        
-        throw new Error(error)
-    }
 
-  
-}
-
-Server();

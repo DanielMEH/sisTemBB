@@ -117,11 +117,11 @@ class Votantes{
                   
                 }
                   if (rows.length > 0) {
-                         
+                          
                     for (let i = 0; i < rows.length; i++) {
                         if ( rows[i].estado == "Activo" ) {
 
-                            console.log("esta basio");
+                            
                          return  res.json({message: "SUCCESFULL_VIEW"})
                         }else{
                             return  res.json({message: "USER_IS_INACTIVE"})
@@ -157,7 +157,9 @@ class Votantes{
                            return res.json({message:"ERROR_DB"})
                         }
                         if ( rows.length > 0 ) {
-                            
+                            if ( rows[0].estado == "Inactivo" ) {
+                                return  res.json({message:"ELECC_NOT_ACTIVE"})
+                            }
                             return res.json({message:rows})
                             
                         } else {
