@@ -63,7 +63,12 @@ class controlElections {
 
   public async deleteElection(req: Request, res: Response): Promise<any> {
     try {
-      const idEleccion = req.params.idEleccion;
+
+      const idEleccion = parseInt(req.params.idEleccion)
+      
+      console.log(parseInt(req.params.idEleccion));
+      
+      
       const connectDb = await conexion.connect();
       connectDb.query(
         "DELETE FROM elecciones WHERE idEleccion = ?",
