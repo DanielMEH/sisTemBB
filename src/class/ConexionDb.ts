@@ -8,7 +8,7 @@ import { createPool } from "mysql";
     private readonly password?:string | any = "";
     protected readonly database:string | any  = "systembotos";
     private readonly charset:string | any  = "utf8";
-    private readonly port:Number| any= 3310;
+    private readonly port:Number| any= 3307;
 
      public async connect() {
    const conenct = await createPool({
