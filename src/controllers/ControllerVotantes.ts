@@ -111,12 +111,12 @@ class Votantes{
             
             const connection = await conexion.connect()
             connection.query( "SELECT * FROM votantes WHERE documento= ? ",[documentInt], ( error, rows ) => {
-                 
                 if ( error ) {
                   return   res.json({message:"ERROR_VIEW_VOTANTES"})
                   
+                  
                 }
-                  if (rows.length > 0) {
+                  if (rows) {
                           
                     for (let i = 0; i < rows.length; i++) {
                         if ( rows[i].estado == "Activo" ) {
@@ -128,7 +128,6 @@ class Votantes{
                         }
                     }
                 }else {
-                    
                    return  res.json({message:"ERROR_NOT_EXIXT"})
                 }
             })

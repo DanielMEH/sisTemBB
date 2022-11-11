@@ -2,6 +2,33 @@ import { Request, Response } from "express";
 import { conexion } from "../class/ConexionDb";
 
 class controlElections {
+
+  public async electionId(req: Request, res: Response): Promise<any> {
+    try {
+
+      // let sessions:any;
+
+      // sessions = req.session;
+
+      // if (sessions.idUser ) {
+        
+        const connectDb = await conexion.connect();
+        connectDb.query("SELECT * FROM elecciones WHERE idEleccion = ?", [req.params.id], async(error, rows) => {
+          if (!error) {
+            return await  res.json({ data: rows });
+          } else {
+            return await  res.json({ data: error });
+          }
+        });
+        
+      // } else {
+        
+      //   res.json({message:"INICIESESSION"})
+      // }
+    } catch (error) {
+      res.json({ message: "error 404" });
+    }
+  }
   
   public async readElections(req: Request, res: Response): Promise<any> {
     try {
