@@ -95,6 +95,9 @@ class ControllerCandidato {
             
             let url_imagen = null;
             let id_img = null;
+            console.log(req.body)
+            console.log(req.files);
+            
   
             if(req.files?.imagen){
                 const result = await  uploadImage( req.files?.imagen.tempFilePath! )
@@ -103,6 +106,7 @@ class ControllerCandidato {
                 
                 await fs.remove(req.files?.imagen.tempFilePath)
             }
+
             
         const { documento,  nombreCandidato, programaFormacion,
             fichaPrograma, estado, totalVotos, id} = req.body
