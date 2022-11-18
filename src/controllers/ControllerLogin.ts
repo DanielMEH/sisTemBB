@@ -64,7 +64,7 @@ class ControllerUser {
                         
                         console.log( sessions.idUser);
                         
-                        res.json({message: sessions})
+                        res.json({message: "LOGIN_OK"})
                         
                     } else {
                         

@@ -4,17 +4,63 @@ import { conexion } from "../class/ConexionDb";
 import fs from 'fs-extra'
 import csvtojson from "csvtojson";
 class Votantes {
+    public async bestVotos( req: Request, res: Response  ) {
+        const connection = await conexion.connect();
+      connection.query("SELECT * FROM votantes  WHERE id = ?",[parseInt(req.params.id)], (error, rows) => {
+        console.log(rows);
+        if (error) {
+          res.json({ message: "ERROR_VIEW_VOTANTES" });
+        }
+        if (rows.length > 0) {
+          
+          res.json({ message: rows });
+        } else {
+          res.json({ message: "ERROR_VIEW_CODE" });
+        }
+      });
+    }
+   public async textUpdate( req: Request, res: Response ) {
+        
+     const connection = await conexion.connect();
+     const { textG } = req.body;
+     connection.query( "UPDATE titulo SET text = ? ", [textG], ( error, rows ) => {
+       if ( rows ) {
+          return res.json({ message: "SUCCESFULL_TEXT" });
+        
+       }
+       
+       
+     })
+    }
+
+ public async getTitle(req: Request, res: Response ) {
+       const connection = await conexion.connect();
+   connection.query( "SELECT * FROM titulo ", ( error, rows ) => {
+        
+        
+        if (error) {
+          res.json({ data: "ERROR_VIEW_TITLE" });
+        }
+        if (rows.length > 0) {
+          res.json({ data: rows });
+        } else {
+          res.json({ data: "ERROR_TITLE" });
+        }
+      });
+  }
   public async readVotantes(req: Request, res: Response) {
     try {
       const connection = await conexion.connect();
       connection.query("SELECT * FROM votantes ", (error, rows) => {
+        console.log(rows);
         if (error) {
           res.json({ message: "ERROR_VIEW_VOTANTES" });
         }
-        if (rows.leng > 0) {
+        if (rows.length > 0) {
+          
           res.json({ message: rows });
         } else {
-          res.json({ message: "ERROR_VIEW_VOTANTES" });
+          res.json({ message: "ERROR_VIEW_CODE" });
         }
       });
     } catch (error) {}
@@ -57,26 +103,30 @@ class Votantes {
         programaFormacion,
         fichaPrograma,
         idEleccion2,
+        estado
       } = req.body;
 
+      console.table(req.body);
+      
       const connection = await conexion.connect();
 
       connection.query(
-        "UPDATE votantes SET documento =?, nombresApellidos=?, programaFormacion=?, fichaPrograma=?, idEleccion2=? WHERE documento = ?",
+        "UPDATE votantes SET documento =?, nombresApellidos=?, programaFormacion=?, fichaPrograma=?, idEleccion2=?, estado = ? WHERE id = ?",
         [
           documento,
           nombresApellidos,
           programaFormacion,
           fichaPrograma,
           idEleccion2,
+          estado,
           req.params.id,
         ],
         (error, rows) => {
           if (rows) {
+            
             return res.json({ message: "UploadData" });
           }
           if (error) {
-            console.log(error);
 
             return res.json({ message: "ErrorUploadData" });
           }
@@ -113,15 +163,18 @@ class Votantes {
       const { documento } = req.body;
       const documentInt = parseInt(documento);
 
+      console.log(documentInt);
+      
       const connection = await conexion.connect();
       connection.query(
         "SELECT * FROM votantes WHERE documento= ? ",
         [documentInt],
-        (error, rows) => {
+        ( error, rows ) => {
+          
           if (error) {
             return res.json({ message: "ERROR_VIEW_VOTANTES" });
           }
-          if (rows) {
+          if (rows.length > 0) {
             for (let i = 0; i < rows.length; i++) {
               if (rows[i].estado == "Activo") {
                 return res.json({ message: "SUCCESFULL_VIEW" });
@@ -194,8 +247,8 @@ class Votantes {
             for (let i = 0; i < rows.length; i++) {
               if (rows[i].estado == "Activo") {
                 connection.query(
-                  "UPDATE votantes SET emitioVoto = ?, estado=?, documento1=? WHERE documento = ?",
-                  [emitioVoto, estado, documento1, idk],
+                  "UPDATE votantes SET emitioVoto = ?, estado=? WHERE documento = ?",
+                  [emitioVoto, estado,  idk],
                   (error, rows) => {
                     if (rows) {
                       connection.query(

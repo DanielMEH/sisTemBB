@@ -191,25 +191,28 @@ class ControllerCandidato {
         
         try {
             const { id } = req.params;
+            console.log(id);
             
             const connection = await conexion.connect();
             
-            connection.query( "SELECT * FROM candidato WHERE documento = ?", [req.params.id],
-               async ( error, rows ) => {
+            connection.query( "SELECT * FROM candidato WHERE documento = ?", [parseInt(req.params.id)],
+                async ( error, rows ) => {
+                    
+                  
                 if(rows) {
 
                    await deleteImage(rows[0].imgId)
                 }
             })
-            connection.query( "DELETE FROM candidato WHERE documento = ?", [id], async ( error, rows ) => {
-                if (rows) {
-                   await  deleteImage(rows[0].imgId)
-                    return await res.json({message:"deleteexit"})
+            connection.query("DELETE FROM candidato WHERE documento = ?", [parseInt(req.params.id)], async ( error, rows ) => {
+                if ( rows ) {
+                    console.log("exit",rows);
+                    return  res.json({message:"SUCCESFULL_DELETE_CAN"})
                 }
                 
                 if (error) {
                     
-                    return await res.json({message:"deleteexit"})
+                    return res.json({message:"ERROR_DELETE_CAN"})
                 }
             })
         } catch (error) {
