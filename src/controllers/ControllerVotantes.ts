@@ -233,7 +233,7 @@ class Votantes {
       let estado = "Inactivo";
       const { idk, documento1 } = req.params;
 
-      console.log(idk, documento1);
+      console.log("ddddd",idk, documento1);
 
       const connection = await conexion.connect();
 
@@ -241,21 +241,22 @@ class Votantes {
         "SELECT * FROM votantes WHERE documento = ?",
         [idk],
         (error, rows) => {
-          console.log(rows);
-
+         
           if (rows.length > 0) {
             for (let i = 0; i < rows.length; i++) {
               if (rows[i].estado == "Activo") {
                 connection.query(
                   "UPDATE votantes SET emitioVoto = ?, estado=? WHERE documento = ?",
-                  [emitioVoto, estado,  idk],
+                  [emitioVoto, estado,  parseInt(idk)],
                   (error, rows) => {
                     if (rows) {
+                     
                       connection.query(
-                        `UPDATE candidato SET totalVotos = totalVotos + ${1} WHERE documento = ?`,
-                        [documento1],
+                        `UPDATE candidato SET totalVotos = totalVotos+1 WHERE documento = ?`,
+                        [parseInt(documento1)],
                         (error, rows) => {
                           if (rows) {
+
                             return res.json({ message: "GOOD_GOOD" });
                           } else if (error) {
                             return res.json({

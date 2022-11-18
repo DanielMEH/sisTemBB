@@ -8,5 +8,6 @@ routerLogin?.post( "/signup", constrollersUser.sigNUpC )!
 routerLogin?.post("/createElection", constrollersUser.createElection)!;
 // routerLogin?.delete( "/login", constrollersUser.sigNUpC)!
 routerLogin?.put( "/login/:id", constrollersUser.loginUpdate)!
+routerLogin.get("/AdminData", constrollersUser.getData)
     
 export  default routerLogin

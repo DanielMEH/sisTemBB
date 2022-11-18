@@ -93,7 +93,7 @@ class controlElections {
 
       const idEleccion = parseInt(req.params.idEleccion)
       
-      console.log(parseInt(req.params.idEleccion));
+     
       
       
       const connectDb = await conexion.connect();

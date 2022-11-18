@@ -10,7 +10,6 @@ class ControllerCandidato {
        
           
          connection.query( "SELECT * FROM candidato", (error, rows) => {
-             console.log(rows);
              
              if(error){
                 return  res.json({data:"ERRUPLOAD_CAND"})
@@ -36,8 +35,6 @@ class ControllerCandidato {
           const connection = await conexion.connect();
           const id = req.params.id;
           let idConvert = parseInt(id)
-          console.log(idConvert);
-          
          connection.query( "SELECT * FROM candidato WHERE documento = ? ",[idConvert], (error, rows) => {
              console.log(rows);
              
@@ -65,10 +62,10 @@ class ControllerCandidato {
          const connection = await conexion.connect();
          const id = req.params.id;
          let idConvert = parseInt(id)
-         console.log(idConvert);
+
          
         connection.query( "SELECT * FROM candidato WHERE idEleccion1 = ? ",[idConvert], (error, rows) => {
-            console.log(rows);
+      
             
             if(error){
                return  res.json({data:"ERRUPLOAD_CAND"})
@@ -174,7 +171,7 @@ class ControllerCandidato {
                     
                 }
                 if (error) {
-                    console.log(error);
+                    
                     
                     return res.json({message:"ErrorUploadData"})
                 }
@@ -191,7 +188,7 @@ class ControllerCandidato {
         
         try {
             const { id } = req.params;
-            console.log(id);
+     
             
             const connection = await conexion.connect();
             
@@ -206,7 +203,7 @@ class ControllerCandidato {
             })
             connection.query("DELETE FROM candidato WHERE documento = ?", [parseInt(req.params.id)], async ( error, rows ) => {
                 if ( rows ) {
-                    console.log("exit",rows);
+                
                     return  res.json({message:"SUCCESFULL_DELETE_CAN"})
                 }
                 

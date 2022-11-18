@@ -3,6 +3,29 @@ import  bcrypt from "bcrypt"
 import {conexion} from "../class/ConexionDb"
 import session, { Session } from "express-session";
 class ControllerUser {
+public async	getData(req: Request, res: Response): Promise<any> {
+		try {
+       const connectDb = await conexion.connect();
+        const { correo } = req.body;
+
+                connectDb.query("SELECT * FROM admin",(error,rows)=>{
+                        for (let i = 0; i < rows.length; i++) {
+                            if (rows[i].estado == "Activo") {
+                                return res.json({ message: "ADMIN_ACTIVE", data:rows});      
+                            }else{
+
+                               return res.json({ message: "ADMIN_INACTIVE"});     
+                            }
+                            
+                        }
+                       
+                    
+                })
+
+    } catch (error) {
+      
+    }
+	}
     public async sigNUpC(req: Request, res: Response): Promise<any> {
         try {
             const { correo, password } = req.body;
@@ -61,8 +84,6 @@ class ControllerUser {
                      let sessions;
                     sessions = req?.session!
                     sessions.idUser = rows[0].idAdmin;
-                        
-                        console.log( sessions.idUser);
                         
                         res.json({message: "LOGIN_OK"})
                         
